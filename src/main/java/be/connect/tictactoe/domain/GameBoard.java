@@ -1,4 +1,4 @@
-package be.connect.tictactoe;
+package be.connect.tictactoe.domain;
 
 public class GameBoard {
     int[][] board;
@@ -82,5 +82,28 @@ public class GameBoard {
 
     public boolean isFull() {
         return getPlayedPositionCount() == 9;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (board[row][col] == 0) {
+                    sb.append(" ");
+                } else if (board[row][col] == 1) {
+                    sb.append("X");
+                } else if (board[row][col] == 2) {
+                    sb.append("O");
+                }
+                if (col < 2) {
+                    sb.append("|");
+                }
+            }
+            sb.append("\n");
+            if (row < 2) {
+                sb.append("-+-+-\n");
+            }
+        }
+        return sb.toString();
     }
 }

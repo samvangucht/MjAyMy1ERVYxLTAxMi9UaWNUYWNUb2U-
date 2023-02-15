@@ -1,5 +1,10 @@
 package be.connect.tictactoe;
 
+import be.connect.tictactoe.domain.Game;
+import be.connect.tictactoe.domain.GameBoard;
+import be.connect.tictactoe.domain.GameState;
+import be.connect.tictactoe.domain.Player;
+import be.connect.tictactoe.exception.PlayedPositionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

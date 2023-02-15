@@ -1,4 +1,4 @@
-package be.connect.tictactoe;
+package be.connect.tictactoe.exception;
 
 public class PlayedPositionException extends RuntimeException {
     public PlayedPositionException() {

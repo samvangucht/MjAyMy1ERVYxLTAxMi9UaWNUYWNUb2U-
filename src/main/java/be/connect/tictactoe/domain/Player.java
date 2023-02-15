@@ -1,4 +1,4 @@
-package be.connect.tictactoe;
+package be.connect.tictactoe.domain;
 
 public enum Player {
     NONE(0),

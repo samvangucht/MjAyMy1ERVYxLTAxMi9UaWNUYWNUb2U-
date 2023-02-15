@@ -1,4 +1,6 @@
-package be.connect.tictactoe;
+package be.connect.tictactoe.domain;
+
+import be.connect.tictactoe.exception.PlayedPositionException;
 
 public class Game {
     private Player activePlayer;
@@ -33,6 +35,10 @@ public class Game {
         } else {
             return Player.NONE;
         }
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 
     public void start() {
