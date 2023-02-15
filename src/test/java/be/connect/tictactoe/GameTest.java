@@ -8,10 +8,12 @@ import be.connect.tictactoe.exception.PlayedPositionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles(profiles = "test")
 public class GameTest {
     Game game;
 
@@ -81,7 +83,7 @@ public class GameTest {
         game = new Game(gameBoard);
         game.start();
 
-        game.pickNextPosition(9);
+        game.pickNextPosition(7);
 
         assertSame(game.getState(), GameState.FINISHED);
         assertSame(game.getWinner(), Player.X);
@@ -99,10 +101,10 @@ public class GameTest {
         game = new Game(gameBoard);
         game.start();
 
-        game.pickNextPosition(7);
+        game.pickNextPosition(9);
 
         assertSame(game.getState(), GameState.FINISHED);
-        assertSame(game.getWinner(), Player.X);
+        assertSame(game.getWinner(), Player.NONE);
     }
 
     @Test
@@ -118,7 +120,7 @@ public class GameTest {
         game.pickNextPosition(9);
 
         assertSame(game.getState(), GameState.FINISHED);
-        assertSame(game.getWinner(), Player.NONE);
+        assertSame(game.getWinner(), Player.X);
     }
 
 }

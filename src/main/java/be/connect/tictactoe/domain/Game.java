@@ -52,7 +52,9 @@ public class Game {
 
         gameBoard.setFieldValue(position, activePlayer.getValue());
         checkForWinner();
-        switchPlayer();
+        if (state != GameState.FINISHED) {
+            switchPlayer();
+        }
     }
 
     private void initializeGame() {
