@@ -10,12 +10,9 @@ public class GameBoard {
                 {0, 0, 0}
         });
     }
+
     public GameBoard(int[][] board) {
         this.board = board;
-    }
-
-    public int[][] getBoard() {
-        return board;
     }
 
     public int getFieldValue(int position) {
@@ -57,14 +54,14 @@ public class GameBoard {
         }
 
         // VERTICAL
-            for(int column = 0; column < 3; column++) {
-                if (board[0][column] != 0
-                        && board[0][column] == board[1][column]
-                        && board[1][column] == board[2][column]
-                ) {
-                    return true;
-                }
+        for (int column = 0; column < 3; column++) {
+            if (board[0][column] != 0
+                    && board[0][column] == board[1][column]
+                    && board[1][column] == board[2][column]
+            ) {
+                return true;
             }
+        }
 
         //DIAGONAL: top left to bottom right
         if (board[0][0] != 0

@@ -23,6 +23,10 @@ public class Game {
         return state;
     }
 
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
     public Player getWinner() {
         if (state == GameState.FINISHED) {
             return winner;
@@ -32,7 +36,7 @@ public class Game {
     }
 
     public void start() {
-        state = GameState.STARTED;
+        setState(GameState.STARTED);
     }
 
     public void pickNextPosition(int position) throws PlayedPositionException {
@@ -47,7 +51,7 @@ public class Game {
 
     private void initializeGame() {
         this.activePlayer = this.gameBoard.getPlayedPositionCount() % 2 == 0 ? Player.X : Player.O;
-        this.state = GameState.CREATED;
+        setState(GameState.CREATED);
     }
 
     private void switchPlayer() {
@@ -60,13 +64,11 @@ public class Game {
 
     private void checkForWinner() {
         if (gameBoard.isThreeInRow()) {
-            state = GameState.FINISHED;
             winner = activePlayer;
-        }
-
-        if (gameBoard.isFull()) {
-            state = GameState.FINISHED;
+            setState(GameState.FINISHED);
+        } else if (gameBoard.isFull()) {
             winner = Player.NONE;
+            setState(GameState.FINISHED);
         }
     }
 }
