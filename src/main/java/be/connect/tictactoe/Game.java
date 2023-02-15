@@ -12,8 +12,7 @@ public class Game {
 
     public Game(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        this.activePlayer = Player.X;
-        this.state = GameState.CREATED;
+        initializeGame();
     }
 
     public Player getActivePlayer() {
@@ -42,8 +41,13 @@ public class Game {
         }
 
         gameBoard.setFieldValue(position, activePlayer.getValue());
-        switchPlayer();
         checkForWinner();
+        switchPlayer();
+    }
+
+    private void initializeGame() {
+        this.activePlayer = this.gameBoard.getPlayedPositionCount() % 2 == 0 ? Player.X : Player.O;
+        this.state = GameState.CREATED;
     }
 
     private void switchPlayer() {
@@ -55,7 +59,14 @@ public class Game {
     }
 
     private void checkForWinner() {
+        if (gameBoard.isThreeInRow()) {
+            state = GameState.FINISHED;
+            winner = activePlayer;
+        }
 
+        if (gameBoard.isFull()) {
+            state = GameState.FINISHED;
+            winner = Player.NONE;
+        }
     }
-
 }

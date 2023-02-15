@@ -4,8 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class GameTest {
@@ -20,8 +19,8 @@ public class GameTest {
     //    X always goes first.
     @Test
     void startGame_XAlwaysGoesFirst() {
-        assertTrue(game.getState() == GameState.STARTED);
-        assertTrue(game.getActivePlayer() == Player.X);
+        assertSame(game.getState(), GameState.STARTED);
+        assertSame(game.getActivePlayer(), Player.X);
     }
 
     //    Players cannot play on a played position.
@@ -35,8 +34,8 @@ public class GameTest {
         game = new Game(gameBoard);
         game.start();
 
-        assertTrue(game.getState() == GameState.STARTED);
-        assertTrue(game.getActivePlayer() == Player.X);
+        assertSame(game.getState(), GameState.STARTED);
+        assertSame(game.getActivePlayer(), Player.X);
         assertThrows(PlayedPositionException.class, () -> game.pickNextPosition(1));
     }
 
@@ -45,24 +44,26 @@ public class GameTest {
     @Test
     void pickNextPosition_AlternatePlayers() {
         game.pickNextPosition(1);
-        assertTrue(game.getActivePlayer() == Player.O);
+        assertSame(game.getActivePlayer(), Player.O);
         game.pickNextPosition(2);
-        assertTrue(game.getActivePlayer() == Player.X);
+        assertSame(game.getActivePlayer(), Player.X);
     }
 
 
     @Test
     void pickNextPosition_ThreeInRow_Horizontal() {
         GameBoard gameBoard = new GameBoard(new int[][]{
-                {1, 1, 1},
+                {1, 1, 0},
                 {2, 2, 0},
                 {0, 0, 0}
         });
         game = new Game(gameBoard);
         game.start();
 
-        assertTrue(game.getState() == GameState.FINISHED);
-        assertTrue(game.getWinner() == Player.X);
+        game.pickNextPosition(3);
+
+        assertSame(game.getState(), GameState.FINISHED);
+        assertSame(game.getWinner(), Player.X);
     }
 
     @Test
@@ -70,27 +71,15 @@ public class GameTest {
         GameBoard gameBoard = new GameBoard(new int[][]{
                 {1, 2, 0},
                 {1, 2, 0},
-                {1, 0, 0}
+                {0, 0, 0}
         });
         game = new Game(gameBoard);
         game.start();
 
-        assertTrue(game.getState() == GameState.FINISHED);
-        assertTrue(game.getWinner() == Player.X);
-    }
+        game.pickNextPosition(9);
 
-    @Test
-    void pickNextPosition_ThreeInRow_Diagonal() {
-        GameBoard gameBoard = new GameBoard(new int[][]{
-                {1, 2, 0},
-                {2, 1, 0},
-                {0, 0, 1}
-        });
-        game = new Game(gameBoard);
-        game.start();
-
-        assertTrue(game.getState() == GameState.FINISHED);
-        assertTrue(game.getWinner() == Player.X);
+        assertSame(game.getState(), GameState.FINISHED);
+        assertSame(game.getWinner(), Player.X);
     }
 
     //    All nine squares are filled
@@ -100,13 +89,31 @@ public class GameTest {
         GameBoard gameBoard = new GameBoard(new int[][]{
                 {2, 2, 1},
                 {1, 1, 2},
-                {2, 1, 1}
+                {2, 1, 0}
         });
         game = new Game(gameBoard);
         game.start();
 
-        assertTrue(game.getState() == GameState.FINISHED);
-        assertTrue(game.getWinner() == Player.NONE);
+        game.pickNextPosition(7);
+
+        assertSame(game.getState(), GameState.FINISHED);
+        assertSame(game.getWinner(), Player.X);
+    }
+
+    @Test
+    void pickNextPosition_ThreeInRow_Diagonal() {
+        GameBoard gameBoard = new GameBoard(new int[][]{
+                {1, 2, 0},
+                {2, 1, 0},
+                {0, 0, 0}
+        });
+        game = new Game(gameBoard);
+        game.start();
+
+        game.pickNextPosition(9);
+
+        assertSame(game.getState(), GameState.FINISHED);
+        assertSame(game.getWinner(), Player.NONE);
     }
 
 }
