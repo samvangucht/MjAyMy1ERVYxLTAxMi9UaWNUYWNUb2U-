@@ -14,7 +14,7 @@ public class GameTest {
     @BeforeEach
     void setup() {
         game = new Game();
-        game.startGame();
+        game.start();
     }
 
     //    X always goes first.
@@ -27,11 +27,13 @@ public class GameTest {
     //    Players cannot play on a played position.
     @Test
     void pickNextPosition_OnPlayedPosition_ThrowsPlayedPositionException() {
-        game = new Game(new Field[][]{
-                [[1],[2],[0]],
-                [[0],[0],[0]],
-                [[0],[0],[0]]
+        GameBoard gameBoard = new GameBoard(new int[][]{
+                {1, 2, 0},
+                {0, 0, 0},
+                {0, 0, 0}
         });
+        game = new Game(gameBoard);
+        game.start();
 
         assertTrue(game.getState() == GameState.STARTED);
         assertTrue(game.getActivePlayer() == Player.X);
@@ -51,11 +53,13 @@ public class GameTest {
 
     @Test
     void pickNextPosition_ThreeInRow_Horizontal() {
-        game = new Game(new Field[][]{
-                [[1],[1],[1]],
-                [[2],[2],[0]],
-                [[0],[0],[0]]
+        GameBoard gameBoard = new GameBoard(new int[][]{
+                {1, 1, 1},
+                {2, 2, 0},
+                {0, 0, 0}
         });
+        game = new Game(gameBoard);
+        game.start();
 
         assertTrue(game.getState() == GameState.FINISHED);
         assertTrue(game.getWinner() == Player.X);
@@ -63,11 +67,13 @@ public class GameTest {
 
     @Test
     void pickNextPosition_ThreeInRow_Vertical() {
-        game = new Game(new Field[][]{
-                [[1],[2],[2]],
-                [[1],[0],[0]],
-                [[1],[0],[0]]
+        GameBoard gameBoard = new GameBoard(new int[][]{
+                {1, 2, 0},
+                {1, 2, 0},
+                {1, 0, 0}
         });
+        game = new Game(gameBoard);
+        game.start();
 
         assertTrue(game.getState() == GameState.FINISHED);
         assertTrue(game.getWinner() == Player.X);
@@ -75,11 +81,13 @@ public class GameTest {
 
     @Test
     void pickNextPosition_ThreeInRow_Diagonal() {
-        game = new Game(new Field[][]{
-                [[1],[2],[2]],
-                [[0],[1],[0]],
-                [[0],[0],[1]]
+        GameBoard gameBoard = new GameBoard(new int[][]{
+                {1, 2, 0},
+                {2, 1, 0},
+                {0, 0, 1}
         });
+        game = new Game(gameBoard);
+        game.start();
 
         assertTrue(game.getState() == GameState.FINISHED);
         assertTrue(game.getWinner() == Player.X);
@@ -88,12 +96,14 @@ public class GameTest {
     //    All nine squares are filled
     //    If all nine squares are filled and neither player has three in a row, the game is a draw.
     @Test
-    void pickNextPosition_AllNineSquaresFilled() {
-        game = new Game(new Field[][]{
-                [[1],[2],[1]],
-                [[2],[1],[2]],
-                [[2],[1],[2]]
+    void pickNextPosition_AllNineSquaresFilled_Draw() {
+        GameBoard gameBoard = new GameBoard(new int[][]{
+                {2, 2, 1},
+                {1, 1, 2},
+                {2, 1, 1}
         });
+        game = new Game(gameBoard);
+        game.start();
 
         assertTrue(game.getState() == GameState.FINISHED);
         assertTrue(game.getWinner() == Player.NONE);
